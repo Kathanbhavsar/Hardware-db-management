@@ -1,6 +1,6 @@
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_monthly_gross_sales_for_customers`(
 
-			c_code INT
+			c_code TEXT
 )
 BEGIN
 
@@ -11,7 +11,7 @@ BEGIN
 							gp.fiscal_year = get_fiscal_year(f.date) and
 							gp.product_code = f.product_code
 		where 
-			f.customer_code = c_code
+			FIND_IN_SET(f.customer_code, c_code) > 0
 		group by fiscal_year
 		order by fiscal_year;
 		
